@@ -1,0 +1,35 @@
+# This is a basic workflow to help you get started with Actions
+
+name: AVH_instance_create_snapshot_delete test
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: pip3 install avh-api avh-api-async websockets python-dateutil aiohttp six urllib3
+        
+      - name: run test
+        run: |
+          git clone https://github.com/ARM-software/avh-api.git 
+          cd avh-api/python/examples/sync/
+          python3 instance_create_snapshot_delete.py https://app.avh.arm.com/api cfa7fc6aa6c6fef8dd07.2f4b5a6eb9491c5b99a91c5597731105501f26b820b8812158cec580ff38ec961ec11d9fb27a8714d52af27b639aead56226e7e8daec7d89615711d733a317ce
